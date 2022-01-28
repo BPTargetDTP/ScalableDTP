@@ -1,0 +1,14 @@
+#!/bin/bash
+#SBATCH --array=1-5%5
+#SBATCH --cpus-per-task=2
+#SBATCH --output=logs/sDDTP/tune.%A.%a.out
+#SBATCH --error=logs/sDDTP/tune.%A.%a.err
+#SBATCH --gres=gpu:1
+#SBATCH --job-name=tune-sDDTP
+#SBATCH --mem=10GB
+module load anaconda/3
+conda activate final_env
+
+cd ~/theoretical_framework_for_target_propagation
+
+python3 run_config.py --config_module=final_configs.cifar10_DDTPConv --random_seed $SLURM_ARRAY_TASK_ID --out_dir logs/sDDTP/$SLURM_ARRAY_TASK_ID

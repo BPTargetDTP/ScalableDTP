@@ -1,0 +1,11 @@
+/__pycache__/
+/lib/__pycache__/
+*.pyc
+/data/
+/logs/
+/tests/logs/
+/.idea/
+*.xml
+*.iml
+.vscode
+

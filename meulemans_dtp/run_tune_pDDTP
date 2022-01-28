@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH --array=1-10%5
+#SBATCH --cpus-per-task=2
+#SBATCH --output=logs/pDDTP/tune.%A.%a.out
+#SBATCH --error=logs/pDDTP/tune.%A.%a.err
+#SBATCH --gres=gpu:1
+#SBATCH --job-name=tune-pDDTP
+#SBATCH --mem=10GB
+module load anaconda/3
+conda activate final_env
+
+cd ~/theoretical_framework_for_target_propagation
+
+orion -v hunt -n pDDTP-tuning python main.py --lr~'loguniform(1e-5, 1e-2,shape=4)' --lr_fb~'loguniform(1e-4, 1e-1)' --sigma~'loguniform(1e-3, 1.0)'\
+ --batch_size~'uniform(100, 200, discrete=True)' --feedback_wd~'loguniform(1e-6, 1e-3)'  \
+--nb_feedback_iterations~'uniform(10, 60, discrete=True, shape=4)' --epsilon~'loguniform(1e-8, 1e-4,shape=4)' \
+--epsilon_fb~'loguniform(1e-8, 1e-6)'\
+ --target_stepsize 0.01596209994744190 --dataset cifar10  --network_type DDTPConvCIFAR --initialization xavier_normal \
+--fb_activation linear --optimizer~"choices(['SGD','Adam'])"  --momentum 0.9 --parallel --normalize_lr --epochs_fb 0 --not_randomized --not_randomized_fb \
+--extra_fb_minibatches 0 --extra_fb_epochs 0 --double_precision --hidden_activation tanh --output_activation softmax  --random_seed~'uniform(0, 200, discrete=True)' \
+--gn_damping 0 --log_interval 100 --epochs 90  --out_dir logs/pDDTP/tuning/$SLURM_ARRAY_TASK_ID
