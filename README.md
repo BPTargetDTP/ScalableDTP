@@ -1,4 +1,4 @@
-# Revisiting Difference Target Propagation
+# Towards Scaling Difference Target Propagation with Backprop Targets
 
 The following code runs on Python > 3.7 with Pytorch >= 1.7.0.
 ## Installation
