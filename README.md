@@ -1,6 +1,6 @@
 # Towards Scaling Difference Target Propagation with Backprop Targets
 
-![This is an image](https://github.com/BPTargetDTP/ScalableDTP/dtp_cartoon.png)
+![This is an image](dtp_cartoon.png)
 
 The following code runs on Python > 3.7 with Pytorch >= 1.7.0.
 ## Installation
